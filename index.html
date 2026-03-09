@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YOUR_NAME — Software Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Software developer building thoughtful systems and interfaces." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prata&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="nav" data-section="home">
+    <a href="#home" class="nav-logo">Addy</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main class="scroll-container">
+    <section id="home" class="section section-hero">
+      <div class="section-side">
+        <p class="hero-label">Aditya Tendulkar</p>
+        <h1 class="hero-title">
+          Turning complex ideas<br />
+          into calm, reliable systems.
+        </h1>
+      </div>
+      <div class="section-content">
+        <p class="hero-subtitle">
+          I design and build web experiences, tools, and data flows that feel simple on the surface, with strong engineering underneath.
+        </p>
+        <a href="#work" class="hero-cta">See work</a>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="section-side">
+        <h2 class="section-title">About.</h2>
+      </div>
+      <div class="section-content">
+        <div class="about-content">
+        <p>
+          I enjoy working where engineering quality and user experience meet. Clean systems underneath, gentle interfaces on top.
+        </p>
+        <p>
+          My work lives where neat architecture meets calm design. I like turning fuzzy requirements into systems that are testable, observable, and straightforward to extend.
+        </p>
+        <p>
+          Whether it's a developer tool, an internal dashboard, or a user-facing product, I aim for solutions that feel simple for the person using them.
+        </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="section">
+      <div class="section-side">
+        <h2 class="section-title">Selected work.</h2>
+      </div>
+      <div class="section-content">
+        <div class="work-list">
+        <article class="work-item">
+          <h3>Pulseboard</h3>
+          <p>Real-time analytics platform. Event streams, live dashboards, clear decision-making.</p>
+          <span class="work-tags">Next.js · WebSockets · PostgreSQL</span>
+        </article>
+        <article class="work-item">
+          <h3>Schema Studio</h3>
+          <p>Visual API explorer with live documentation and generated snippets.</p>
+          <span class="work-tags">TypeScript · React · Node.js</span>
+        </article>
+        <article class="work-item">
+          <h3>Orbit Playground</h3>
+          <p>Web-based 3D environment for teaching abstract concepts through motion.</p>
+          <span class="work-tags">Three.js · Shaders · Performance</span>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section-contact">
+      <div class="section-side">
+        <h2 class="section-title">Get in touch.</h2>
+      </div>
+      <div class="section-content">
+      <p class="contact-intro">
+        Based in Auckland. Open to remote and hybrid work.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:your-email@example.com">your-email@example.com</a>
+        <a href="https://github.com/your-handle" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://linkedin.com/in/your-handle" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+      <footer class="footer">
+        © <span id="year"></span> YOUR_NAME
+      </footer>
+      </div>
+    </section>
+  </main>
+
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <script src="main.js"></script>
+</body>
+</html>

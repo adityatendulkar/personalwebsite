@@ -1,0 +1,394 @@
+/* ─────────────────────────────────────────────────────────────────
+   Simple dark portfolio — Prata
+   ───────────────────────────────────────────────────────────────── */
+
+:root {
+  --bg: #0d0d0d;
+  --bg-elevated: #161616;
+  --fg: #e8e6e3;
+  --fg-muted: #8b8685;
+  --accent: #fa9e65;
+  --border: rgba(255, 255, 255, 0.06);
+  /* Dark pastel section palette */
+  --section-hero: #1a1b24;
+  --section-about: #24222a;
+  --section-work: #1e2424;
+  --section-contact: #2a2524;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: "Average Sans", sans-serif;
+  background: var(--section-hero);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  min-height: 100%;
+}
+
+h1, h2, h3, .nav-logo {
+  font-family: "Prata", serif;
+}
+
+/* Hide scrollbar on html (the document scroll container) */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Navigation ─── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: var(--section-hero);
+  transition: background 0.25s ease;
+}
+
+.nav[data-section="home"] {
+  background: var(--section-hero);
+}
+
+.nav[data-section="about"] {
+  background: var(--section-about);
+}
+
+.nav[data-section="work"] {
+  background: var(--section-work);
+}
+
+.nav[data-section="contact"] {
+  background: var(--section-contact);
+}
+
+.nav-logo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--fg);
+}
+
+@media (max-width: 640px) {
+  .nav {
+    padding: 1rem 1.25rem;
+  }
+  .nav-links {
+    gap: 1.25rem;
+  }
+}
+
+/* ─── Scroll container (snap sections) ─── */
+/* Removed scroll-snap and custom container */
+.scroll-container {
+  /* Let body scroll naturally */
+}
+
+.section {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 100vh;
+  padding: 6rem 2rem 4rem;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+  /* Ensure backgrounds cover previous sections */
+  background: inherit;
+  
+  /* Scroll Snap */
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Full-width section backgrounds (no black on sides) */
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.section-hero {
+  z-index: 1;
+  align-items: center;
+  background: var(--section-hero);
+}
+
+.section-hero::before {
+  background: var(--section-hero);
+}
+
+.section#about {
+  z-index: 2;
+  background: var(--section-about);
+}
+
+.section#about::before {
+  background: var(--section-about);
+}
+
+.section#work {
+  z-index: 3;
+  background: var(--section-work);
+}
+
+.section#work::before {
+  background: var(--section-work);
+}
+
+.section#contact {
+  z-index: 4;
+  background: var(--section-contact);
+}
+
+.section#contact::before {
+  background: var(--section-contact);
+}
+
+.section-side {
+  /* No longer sticky inside section, section itself is sticky */
+  padding-right: 2rem;
+}
+
+.section-content {
+  padding-top: 0.5rem;
+  padding-bottom: 0;
+  /* Allow scrolling inside content if needed */
+  max-height: 80vh;
+  overflow-y: auto;
+  /* Hide scrollbar */
+  scrollbar-width: none;
+}
+
+.section-content::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .section {
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+  }
+  .section-side {
+    position: static;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 5rem 1.25rem 3rem;
+  }
+}
+
+/* ─── Hero ─── */
+.section-hero .section-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 0;
+}
+
+.hero-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  color: #ffffff;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-width: 32rem;
+  margin-bottom: 2rem;
+}
+
+.hero-cta {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 0.2rem;
+  transition: opacity 0.2s ease;
+}
+
+.hero-cta:hover {
+  opacity: 0.8;
+}
+
+/* ─── Section titles ─── */
+.section-title {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  line-height: 0.9;
+}
+
+/* ─── About ─── */
+.about-content p {
+  font-size: 1.5rem;
+  line-height: 1.7;
+  color: var(--fg);
+  margin-bottom: 1.25rem;
+}
+
+.about-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── Work ─── */
+.work-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.work-item {
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.work-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.work-item h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.work-item p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  margin-bottom: 0.5rem;
+}
+
+.work-tags {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  opacity: 0.8;
+}
+
+/* ─── Contact ─── */
+.section-contact {
+  min-height: 100vh;
+}
+
+.contact-intro {
+  font-size: 1.2rem;
+  color: var(--fg-muted);
+  margin-bottom: 1.5rem;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-links a {
+  font-size: 1.25rem;
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  width: fit-content;
+}
+
+.contact-links a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ─── Scroll progress bar ─── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 101;
+  transform-origin: left;
+  width: 0%;
+}
