@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Wheel-to-section: one scroll = one full section (no partial scrolling)
   var sections = Array.from(document.querySelectorAll(".section[id]"));
+  var hasScrollableSections = sections.length > 0;
   var currentIndex = 0;
   var isScrolling = false;
   var cooldown = 700;
@@ -25,35 +26,38 @@ document.addEventListener("DOMContentLoaded", function () {
     window.scrollTo({ top: index * window.innerHeight, behavior: "smooth" });
   }
 
-  document.addEventListener("wheel", function (e) {
-    e.preventDefault();
-    if (isScrolling) return;
+  if (hasScrollableSections) {
+    document.addEventListener("wheel", function (e) {
+      e.preventDefault();
+      if (isScrolling) return;
 
-    if (e.deltaY > 10) {
-      if (currentIndex < sections.length - 1) {
-        isScrolling = true;
-        goToSection(currentIndex + 1);
-        setTimeout(function () { isScrolling = false; }, cooldown);
+      if (e.deltaY > 10) {
+        if (currentIndex < sections.length - 1) {
+          isScrolling = true;
+          goToSection(currentIndex + 1);
+          setTimeout(function () { isScrolling = false; }, cooldown);
+        }
+      } else if (e.deltaY < -10) {
+        if (currentIndex > 0) {
+          isScrolling = true;
+          goToSection(currentIndex - 1);
+          setTimeout(function () { isScrolling = false; }, cooldown);
+        }
       }
-    } else if (e.deltaY < -10) {
-      if (currentIndex > 0) {
-        isScrolling = true;
-        goToSection(currentIndex - 1);
-        setTimeout(function () { isScrolling = false; }, cooldown);
-      }
+    }, { passive: false });
+
+    // Sync currentIndex and nav when scroll finishes (e.g. nav click, hash load)
+    function syncFromScroll() {
+      var scrollTop = window.scrollY;
+      var vh = window.innerHeight;
+      var idx = Math.min(sections.length - 1, Math.max(0, Math.round(scrollTop / vh)));
+      currentIndex = idx;
+      setNavSection(idx);
     }
-  }, { passive: false });
 
-  // Sync currentIndex and nav when scroll finishes (e.g. nav click, hash load)
-  function syncFromScroll() {
-    var scrollTop = window.scrollY;
-    var vh = window.innerHeight;
-    var idx = Math.min(sections.length - 1, Math.max(0, Math.round(scrollTop / vh)));
-    currentIndex = idx;
-    setNavSection(idx);
+    window.addEventListener("scroll", syncFromScroll);
+    syncFromScroll();
   }
-  window.addEventListener("scroll", syncFromScroll);
-  syncFromScroll();
 
   // Scroll progress bar
   var progressBar = document.querySelector(".scroll-progress");
