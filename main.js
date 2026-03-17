@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var touchStartX = 0;
   var touchStartY = 0;
   var touchThreshold = 60;
+  var touchHandled = false;
 
   function closeMenu() {
     if (!nav || !navToggle) return;
@@ -116,21 +117,25 @@ document.addEventListener("DOMContentLoaded", function () {
       if (window.innerWidth > 640 || !e.touches || e.touches.length !== 1 || !hasScrollableSections) return;
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
+      touchHandled = false;
     }, { passive: true });
 
-    document.addEventListener("touchend", function (e) {
+    document.addEventListener("touchmove", function (e) {
       var touch;
       var deltaX;
       var deltaY;
 
-      if (window.innerWidth > 640 || isScrolling || !hasScrollableSections || (nav && nav.classList.contains("nav-open"))) return;
-      if (!e.changedTouches || e.changedTouches.length !== 1) return;
+      if (window.innerWidth > 640 || isScrolling || touchHandled || !hasScrollableSections || (nav && nav.classList.contains("nav-open"))) return;
+      if (!e.touches || e.touches.length !== 1) return;
 
-      touch = e.changedTouches[0];
+      touch = e.touches[0];
       deltaX = touch.clientX - touchStartX;
       deltaY = touch.clientY - touchStartY;
 
       if (Math.abs(deltaY) < touchThreshold || Math.abs(deltaY) < Math.abs(deltaX)) return;
+
+      e.preventDefault();
+      touchHandled = true;
 
       if (deltaY < 0 && currentIndex < sections.length - 1) {
         isScrolling = true;
@@ -141,6 +146,10 @@ document.addEventListener("DOMContentLoaded", function () {
         goToSection(currentIndex - 1);
         setTimeout(function () { isScrolling = false; }, cooldown);
       }
+    }, { passive: false });
+
+    document.addEventListener("touchend", function () {
+      touchHandled = false;
     }, { passive: true });
 
     window.addEventListener("scroll", syncFromScroll);

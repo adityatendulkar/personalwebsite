@@ -151,6 +151,11 @@ html::-webkit-scrollbar {
 }
 
 @media (max-width: 640px) {
+  html,
+  body {
+    overscroll-behavior-y: none;
+  }
+
   .nav {
     padding: clamp(0.9rem, 2.8vw, 1.1rem);
   }
