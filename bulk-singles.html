@@ -6,21 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="Bulk Singles is a bulk cost searcher and optimiser for MTG singles orders, with desktop downloads from GitHub Releases."
+    content="Bulk Singles is a desktop app for mtgsingles.co.nz that helps optimise bulk MTG singles orders."
   />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Prata&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Prata&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="page-project">
   <nav class="nav" data-section="project">
-    <a href="index.html#work" class="nav-logo">Addy</a>
+    <a href="index.html#projects" class="nav-logo">Addy.</a>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="https://github.com/adityatendulkar/mtgbulkorders-nz" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="index.html">Home.</a>
     </div>
   </nav>
 
@@ -28,42 +28,11 @@
     <section class="project-hero">
       <h1 class="hero-title">Bulk Singles</h1>
       <p class="project-subtitle">
-        A bulk cost searcher and optimiser for MTG singles orders that helps find lower-cost combinations across vendors.
+        A desktop optimiser for bulk-buying Magic: The Gathering singles across New Zealand, based on the mtgsingles.co.nz website.
       </p>
-      <div class="project-meta">
-        <span>Python</span>
-        <span>Flask</span>
-        <span>Desktop packaging</span>
-      </div>
     </section>
 
-    <section class="project-section">
-      <div class="project-copy">
-        <h2 class="project-heading">What it does.</h2>
-        <p>
-          Bulk Singles compares listings from mtgsingles.co.nz, applies vendor and shipping costs, and searches for a cheaper way to fulfil a bulk order.
-        </p>
-        <p>
-          The project ships as both a local web app and a desktop app, so it can be used without setting up a full development environment each time.
-        </p>
-      </div>
-      <div class="project-panel">
-        <h3>Key capabilities</h3>
-        <ul class="project-points">
-          <li>Compares card availability and pricing across multiple stores.</li>
-          <li>Optimises for total order cost instead of only per-card pricing.</li>
-          <li>Supports desktop downloads through GitHub Releases.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="project-section project-downloads">
-      <div class="project-copy">
-        <h2 class="project-heading">Downloads.</h2>
-        <p>
-          These buttons pull directly from the latest GitHub release, so they always point at the newest packaged build.
-        </p>
-      </div>
+    <section class="project-downloads">
       <div class="download-grid">
         <a
           class="download-button"
@@ -82,11 +51,33 @@
       </div>
     </section>
 
+    <section class="project-showcase">
+      <figure class="project-shot">
+        <img
+          src="assets/bulk-singles-ui.png"
+          alt="Bulk Singles interface showing the card list builder, optimisation settings, results, and store filters."
+        />
+      </figure>
+    </section>
+
+    <section class="project-section project-section-single">
+      <div class="project-copy">
+        <h2 class="project-heading">What it does.</h2>
+        <p>
+          Bulk Singles compares listings from mtgsingles.co.nz, applies vendor and shipping costs, and searches for a cheaper way to fulfil a bulk order.
+        </p>
+        <p>
+          It is built as a desktop app for mtgsingles.co.nz orders, with the optimiser and order-building workflow in one place.
+        </p>
+      </div>
+    </section>
+
     <footer class="project-footer">
-      <p>
-        Source code lives on
-        <a href="https://github.com/adityatendulkar/mtgbulkorders-nz" target="_blank" rel="noreferrer">GitHub</a>.
-      </p>
+      <div class="project-meta project-meta-bottom">
+        <span>Python</span>
+        <span>Flask</span>
+        <span>Desktop packaging</span>
+      </div>
       <p>© <span id="year"></span> Aditya Tendulkar</p>
     </footer>
   </main>
