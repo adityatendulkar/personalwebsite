@@ -43,6 +43,10 @@ body {
   min-height: 100%;
 }
 
+body.menu-open {
+  overflow: hidden;
+}
+
 h1, h2, h3, .nav-logo {
   font-family: var(--font-display);
 }
@@ -97,6 +101,8 @@ html::-webkit-scrollbar {
 }
 
 .nav-logo {
+  position: relative;
+  z-index: 101;
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -107,6 +113,28 @@ html::-webkit-scrollbar {
 .nav-links {
   display: flex;
   gap: 2rem;
+}
+
+.nav-toggle {
+  display: none;
+  position: relative;
+  z-index: 101;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 1.4rem;
+  height: 1px;
+  margin: 0.28rem auto;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .nav-links a {
@@ -124,14 +152,51 @@ html::-webkit-scrollbar {
 
 @media (max-width: 640px) {
   .nav {
-    padding: 1rem 1.25rem;
+    padding: clamp(0.9rem, 2.8vw, 1.1rem);
   }
+
+  .nav-toggle {
+    display: block;
+  }
+
   .nav-links {
-    gap: 0.8rem;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: clamp(1rem, 2.2svh, 1.5rem);
+    padding: clamp(5.75rem, 11svh, 7rem) 1.5rem 2rem;
+    background: inherit;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
   }
+
   .nav-links a {
-    font-size: 0.82rem;
+    font-size: 1.4rem;
     letter-spacing: 0.04em;
+  }
+
+  .nav.nav-open .nav-links {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .nav.nav-open .nav-toggle span:nth-child(1) {
+    transform: translateY(0.38rem) rotate(45deg);
+  }
+
+  .nav.nav-open .nav-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav.nav-open .nav-toggle span:nth-child(3) {
+    transform: translateY(-0.38rem) rotate(-45deg);
   }
 }
 
@@ -245,16 +310,39 @@ html::-webkit-scrollbar {
   .section {
     grid-template-columns: 1fr;
     min-height: 100vh;
+    align-content: start;
+    align-items: start;
+    gap: 1.75rem;
   }
   .section-side {
     position: static;
     padding-right: 0;
   }
+
+  .section-content {
+    max-height: none;
+    overflow: visible;
+    padding-top: 0;
+  }
 }
 
 @media (max-width: 640px) {
   .section {
-    padding: 5rem 1.25rem 3rem;
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+    padding: clamp(5.35rem, 11svh, 6.75rem) 1rem clamp(1.7rem, 4.5svh, 2.7rem);
+    gap: clamp(0.85rem, 2svh, 1.35rem);
+  }
+
+  .section-side {
+    padding-top: clamp(0.2rem, 0.7svh, 0.55rem);
+  }
+
+  .section-content {
+    padding-bottom: 0;
   }
 }
 
@@ -286,7 +374,7 @@ html::-webkit-scrollbar {
 .hero-subtitle {
   font-size: 1.35rem;
   line-height: 1.6;
-  color: var(--fg-muted);
+  color: #ffffff;
   max-width: 32rem;
   margin-bottom: 2rem;
 }
@@ -319,7 +407,7 @@ html::-webkit-scrollbar {
 
 /* ─── About ─── */
 .about-content p {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   line-height: 1.7;
   color: var(--fg);
   margin-bottom: 1.25rem;
@@ -668,5 +756,76 @@ html::-webkit-scrollbar {
 
   .project-subtitle {
     font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-label {
+    font-size: clamp(0.72rem, 2vw, 0.8rem);
+    margin-bottom: clamp(0.55rem, 1.4svh, 0.8rem);
+  }
+
+  .hero-title {
+    font-size: clamp(2.15rem, 8.6vw, 2.65rem);
+    line-height: 1.05;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.04rem, 4.2vw, 1.22rem);
+    line-height: 1.5;
+    margin-bottom: clamp(1.1rem, 2.8svh, 1.7rem);
+  }
+
+  .hero-cta {
+    font-size: clamp(0.9rem, 3vw, 1rem);
+  }
+
+  .section-title {
+    font-size: clamp(2.4rem, 9.4vw, 3.1rem);
+    line-height: 0.95;
+  }
+
+  .about-content p {
+    font-size: clamp(1.03rem, 3.9vw, 1.12rem);
+    line-height: 1.55;
+    margin-bottom: clamp(0.7rem, 1.7svh, 1rem);
+  }
+
+  .experience-list {
+    gap: clamp(0.45rem, 1.2svh, 0.9rem);
+  }
+
+  .experience-item {
+    padding-bottom: clamp(0.55rem, 1.35svh, 1rem);
+  }
+
+  .experience-item h3 {
+    font-size: clamp(1.12rem, 4.2vw, 1.26rem);
+  }
+
+  .work-item h3 {
+    font-size: clamp(1.08rem, 4vw, 1.2rem);
+  }
+
+  .experience-item p,
+  .work-item p,
+  .contact-intro {
+    font-size: clamp(0.98rem, 3.7vw, 1.05rem);
+    line-height: 1.45;
+  }
+
+  .section-content {
+    padding-bottom: 0;
+  }
+
+  .experience-period,
+  .work-tags,
+  .experience-note,
+  .footer {
+    font-size: clamp(0.8rem, 2.8vw, 0.88rem);
+  }
+
+  .contact-links a {
+    font-size: clamp(1.03rem, 3.9vw, 1.16rem);
   }
 }

@@ -12,6 +12,53 @@ document.addEventListener("DOMContentLoaded", function () {
   var isScrolling = false;
   var cooldown = 700;
   var nav = document.querySelector(".nav");
+  var navToggle = document.querySelector(".nav-toggle");
+  var navMenu = document.querySelector(".nav-links");
+  var touchStartX = 0;
+  var touchStartY = 0;
+  var touchThreshold = 60;
+
+  function closeMenu() {
+    if (!nav || !navToggle) return;
+    nav.classList.remove("nav-open");
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.setAttribute("aria-label", "Open menu");
+    document.body.classList.remove("menu-open");
+  }
+
+  function openMenu() {
+    if (!nav || !navToggle) return;
+    nav.classList.add("nav-open");
+    navToggle.setAttribute("aria-expanded", "true");
+    navToggle.setAttribute("aria-label", "Close menu");
+    document.body.classList.add("menu-open");
+  }
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", function () {
+      if (nav.classList.contains("nav-open")) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    navMenu.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 640) {
+        closeMenu();
+      }
+    });
+  }
 
   function setNavSection(index) {
     if (nav && sections[index]) {
@@ -19,11 +66,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  function getSectionTop(index) {
+    if (!sections[index]) return 0;
+    return sections[index].offsetTop;
+  }
+
+  function syncFromScroll() {
+    var marker = window.scrollY + (window.innerHeight * 0.35);
+    var idx = 0;
+
+    sections.forEach(function (section, index) {
+      if (section.offsetTop <= marker) {
+        idx = index;
+      }
+    });
+
+    currentIndex = idx;
+    setNavSection(idx);
+  }
+
   function goToSection(index) {
     if (index < 0 || index >= sections.length) return;
     currentIndex = index;
     setNavSection(index);
-    window.scrollTo({ top: index * window.innerHeight, behavior: "smooth" });
+    window.scrollTo({ top: getSectionTop(index), behavior: "smooth" });
   }
 
   if (hasScrollableSections) {
@@ -46,14 +112,36 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }, { passive: false });
 
-    // Sync currentIndex and nav when scroll finishes (e.g. nav click, hash load)
-    function syncFromScroll() {
-      var scrollTop = window.scrollY;
-      var vh = window.innerHeight;
-      var idx = Math.min(sections.length - 1, Math.max(0, Math.round(scrollTop / vh)));
-      currentIndex = idx;
-      setNavSection(idx);
-    }
+    document.addEventListener("touchstart", function (e) {
+      if (window.innerWidth > 640 || !e.touches || e.touches.length !== 1 || !hasScrollableSections) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener("touchend", function (e) {
+      var touch;
+      var deltaX;
+      var deltaY;
+
+      if (window.innerWidth > 640 || isScrolling || !hasScrollableSections || (nav && nav.classList.contains("nav-open"))) return;
+      if (!e.changedTouches || e.changedTouches.length !== 1) return;
+
+      touch = e.changedTouches[0];
+      deltaX = touch.clientX - touchStartX;
+      deltaY = touch.clientY - touchStartY;
+
+      if (Math.abs(deltaY) < touchThreshold || Math.abs(deltaY) < Math.abs(deltaX)) return;
+
+      if (deltaY < 0 && currentIndex < sections.length - 1) {
+        isScrolling = true;
+        goToSection(currentIndex + 1);
+        setTimeout(function () { isScrolling = false; }, cooldown);
+      } else if (deltaY > 0 && currentIndex > 0) {
+        isScrolling = true;
+        goToSection(currentIndex - 1);
+        setTimeout(function () { isScrolling = false; }, cooldown);
+      }
+    }, { passive: true });
 
     window.addEventListener("scroll", syncFromScroll);
     syncFromScroll();
@@ -82,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var idx = sections.findIndex(function (s) { return s.id === targetId; });
       if (idx >= 0) {
         e.preventDefault();
+        closeMenu();
         isScrolling = true;
         goToSection(idx);
         setTimeout(function () { isScrolling = false; }, cooldown);
