@@ -14,10 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var nav = document.querySelector(".nav");
   var navToggle = document.querySelector(".nav-toggle");
   var navMenu = document.querySelector(".nav-links");
-  var touchStartX = 0;
-  var touchStartY = 0;
-  var touchThreshold = 60;
-  var touchHandled = false;
 
   function closeMenu() {
     if (!nav || !navToggle) return;
@@ -112,45 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     }, { passive: false });
-
-    document.addEventListener("touchstart", function (e) {
-      if (window.innerWidth > 640 || !e.touches || e.touches.length !== 1 || !hasScrollableSections) return;
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      touchHandled = false;
-    }, { passive: true });
-
-    document.addEventListener("touchmove", function (e) {
-      var touch;
-      var deltaX;
-      var deltaY;
-
-      if (window.innerWidth > 640 || isScrolling || touchHandled || !hasScrollableSections || (nav && nav.classList.contains("nav-open"))) return;
-      if (!e.touches || e.touches.length !== 1) return;
-
-      touch = e.touches[0];
-      deltaX = touch.clientX - touchStartX;
-      deltaY = touch.clientY - touchStartY;
-
-      if (Math.abs(deltaY) < touchThreshold || Math.abs(deltaY) < Math.abs(deltaX)) return;
-
-      e.preventDefault();
-      touchHandled = true;
-
-      if (deltaY < 0 && currentIndex < sections.length - 1) {
-        isScrolling = true;
-        goToSection(currentIndex + 1);
-        setTimeout(function () { isScrolling = false; }, cooldown);
-      } else if (deltaY > 0 && currentIndex > 0) {
-        isScrolling = true;
-        goToSection(currentIndex - 1);
-        setTimeout(function () { isScrolling = false; }, cooldown);
-      }
-    }, { passive: false });
-
-    document.addEventListener("touchend", function () {
-      touchHandled = false;
-    }, { passive: true });
 
     window.addEventListener("scroll", syncFromScroll);
     syncFromScroll();

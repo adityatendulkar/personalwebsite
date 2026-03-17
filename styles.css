@@ -151,11 +151,6 @@ html::-webkit-scrollbar {
 }
 
 @media (max-width: 640px) {
-  html,
-  body {
-    overscroll-behavior-y: none;
-  }
-
   .nav {
     padding: clamp(0.9rem, 2.8vw, 1.1rem);
   }
@@ -832,5 +827,31 @@ html::-webkit-scrollbar {
 
   .contact-links a {
     font-size: clamp(1.03rem, 3.9vw, 1.16rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .nav,
+  .nav[data-section="home"],
+  .nav[data-section="about"],
+  .nav[data-section="experience"],
+  .nav[data-section="projects"],
+  .nav[data-section="project"],
+  .nav[data-section="contact"],
+  .section,
+  .section::before,
+  .section-hero,
+  .section-hero::before,
+  .section#about,
+  .section#about::before,
+  .section#experience,
+  .section#experience::before,
+  .section#projects,
+  .section#projects::before,
+  .section#contact,
+  .section#contact::before,
+  .page-project,
+  .project-page {
+    background: var(--section-hero);
   }
 }
